@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="settings-container">
+        <h2>Customize Your Settings</h2>
+
+        <!-- Palladium Settings -->
+        <label for="panicLinkInput">Panic Mode Link:</label>
+        <input type="text" id="panicLinkInput" placeholder="Enter Panic Mode Link">
+
+        <label for="panicShortcutInput">Panic Mode Shortcut:</label>
+        <input type="text" id="panicShortcutInput" placeholder="Enter Shortcut (e.g., Ctrl+Alt+P)">
+        
+        <!-- Nexus Settings -->
+        <label for="titleInput">Change Website Title:</label>
+        <input type="text" id="titleInput" placeholder="Enter new title">
+
+        <label for="faviconInput">Change Favicon URL:</label>
+        <input type="text" id="faviconInput" placeholder="Enter new favicon URL">
+
+        <button class="nice-button" onclick="applySettings()">Apply Settings</button>
+    </div>
+
+    <button class="open-site-button" onclick="openAboutBlank()">Open about:blank</button>
+
+    <!-- Checkbox for global tab disguise -->
+    <label for="globalTabDisguiseCheckbox">Enable Global Tab Disguise:</label>
+    <input type="checkbox" id="globalTabDisguiseCheckbox" onchange="toggleGlobalTabDisguise()">
+    
+    <script>
+        function applySettings() {
+            // Your existing applySettings function remains unchanged
+        }
+
+        function openAboutBlank() {
+            // Your existing openAboutBlank function remains unchanged
+        }
+
+        function toggleGlobalTabDisguise() {
+            var globalTabDisguiseCheckbox = document.getElementById("globalTabDisguiseCheckbox");
+            var globalTabDisguiseEnabled = globalTabDisguiseCheckbox.checked;
+
+            // Save the global tab disguise status to localStorage
+            localStorage.setItem("globalTabDisguiseEnabled", globalTabDisguiseEnabled);
+
+            if (globalTabDisguiseEnabled) {
+                // Apply global tab disguise
+                applyGlobalTabDisguise();
+            }
+        }
+
+        function applyGlobalTabDisguise() {
+            var globalTabDisguiseEnabled = localStorage.getItem("globalTabDisguiseEnabled") === "true";
+
+            if (globalTabDisguiseEnabled) {
+                // Retrieve and apply the global tab disguise settings from localStorage
+                var tabDisguiseName = localStorage.getItem("tabDisguiseName") || "Google";
+                var tabDisguiseIconURL = localStorage.getItem("tabDisguiseIconURL") || "https://www.google.com/favicon.ico";
+
+                setTabDisguise(tabDisguiseName, tabDisguiseIconURL);
+            }
+        }
+
+        function setTabDisguise(name, iconURL) {
+            console.log(`Setting global tab disguise for ${name} with icon URL: ${iconURL}`);
+            document.getElementById("dynamic-favicon").href = iconURL;
+            document.title = `${name} - Search the web`;
+        }
+
+        // Apply global tab disguise on page load
+        document.addEventListener("DOMContentLoaded", function() {
+            applyGlobalTabDisguise();
+        });
+
+        // Apply global tab disguise on visibility change
+        document.addEventListener("visibilitychange", function() {
+            applyGlobalTabDisguise();
+        });
+    </script>
+</body>
+</html>
